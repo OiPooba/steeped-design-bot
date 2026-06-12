@@ -1,0 +1,21 @@
+{
+  "name": "steepeddesignbot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+  "start": "node index.js",
+  "dev": "nodemon index.js"
+},
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "discord.js": "^14.26.4",
+    "dotenv": "^17.4.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}
