@@ -162,11 +162,20 @@ module.exports = {
 
 ${traitLines}
 
+<<<<<<< HEAD
 
 🧬 **Personality Synergies:**
 
 ${synergyText}
 
+=======
+🧬 **Synergy:**
+${
+  synergy
+    ? synergy.map(s => `• ${s.result} (${s.score})`).join("\n")
+    : "No strong synergy detected."
+}
+>>>>>>> origin/main
 
 ✨ **Aroma of Personality:**
 
