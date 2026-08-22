@@ -1,8 +1,6 @@
 const personalities = [
 
   // 🌿 POSITIVE
-<<<<<<< HEAD
-
 {
   name: "Brave",
   description: "Faces fears without hesitation.",
@@ -4171,7 +4169,10 @@ const personalities = [
     comedy: -1
   }
 },
-=======
+/* Legacy tag-only personality list from the other merge branch; the detailed
+ * trait-based list above is the version used by the current personality and
+ * synergy systems.
+ *
   { name: "Brave", description: "Faces fears without hesitation.", category: "positive", tags: ["warrior"], rarity: "common" },
   { name: "Smart", description: "Quick thinker and fast learner.", category: "positive", tags: ["strategy"], rarity: "common" },
   { name: "Respectful", description: "Listens to others and honors them.", category: "positive", tags: ["loyalty"], rarity: "common" },
@@ -4331,7 +4332,7 @@ const personalities = [
   { name: "Corrupt", description: "Morally compromised and driven by selfish gain.", category: "negative", tags: ["evil"], rarity: "rare" },
   { name: "Deceitful", description: "Habitually lies and manipulates others.", category: "negative", tags: ["evil"], rarity: "common" },
   { name: "Tyrannical", description: "Seeks absolute control over others through force.", category: "negative", tags: ["evil"], rarity: "rare" },
->>>>>>> origin/main
+*/
 ];
 
 module.exports = { personalities };
