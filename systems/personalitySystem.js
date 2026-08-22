@@ -1,114 +1,212 @@
 const { personalities } = require("../data/personalities");
 
-// 🎲 random helper
+
+// 🎲 Random helper
 function random(arr) {
   return arr[Math.floor(Math.random() * arr.length)];
 }
 
-// 🎯 filter traits by category
+
+// 🎯 Get personalities by category
 function getByCategory(category) {
-  return personalities.filter(p => p.category === category);
+  return personalities.filter(
+    p => p.category === category
+  );
 }
 
-// 🎲 single trait roll
-function rollSingle() {
+
+// 🎲 Pick unique personalities
+function pickUnique(list, amount) {
+
+  const pool = [...list];
+  const result = [];
+
+
+  while(result.length < amount && pool.length){
+
+    const index = Math.floor(
+      Math.random() * pool.length
+    );
+
+    result.push(
+      pool.splice(index,1)[0].name
+    );
+
+  }
+
+
+  return result;
+
+}
+
+
+
+// 🎲 Standard single roll
+function rollSingle(){
+
   return random(personalities).name;
+
 }
 
-// 🎲 full roll (used by /fullpersonality)
-function rollFull() {
-  return {
-    result: [
-      rollSingle(),
-      rollSingle(),
-      rollSingle()
-    ]
-  };
-}
 
-// 🎲 rarity-based roll (fixed for your structure)
-function rollRarity() {
-  const roll = Math.random();
+
+// 🎭 Balanced personality roll
+//
+// Default:
+// Positive + Neutral + Negative
+//
+// Small chance:
+// Lean toward one category
+//
+// Very small chance:
+// Pure category
+//
+
+function rollFull(){
+
 
   const positive = getByCategory("positive");
   const neutral = getByCategory("neutral");
   const negative = getByCategory("negative");
 
-  // 🟢 COMMON
-  if (roll < 0.70) {
+
+  const roll = Math.random();
+
+
+  // 🌈 Normal balanced personality
+  if(roll < 0.75){
+
     return {
-      rarity: "Common",
-      result: [
+
+      result:[
+
         random(positive).name,
         random(neutral).name,
         random(negative).name
+
       ]
+
     };
+
   }
 
-  // 🔵 POSITIVE LEAN
-  if (roll < 0.90) {
+
+
+  // 🟢 Positive leaning
+  if(roll < 0.85){
+
     return {
-      rarity: "Uncommon (Positive Lean)",
-      result: [
+
+      result:[
+
         random(positive).name,
         random(positive).name,
         random(neutral).name
+
       ]
+
     };
+
   }
 
-  // 🔴 NEGATIVE LEAN
-  if (roll < 0.95) {
+
+
+  // 🔴 Negative leaning
+  if(roll < 0.93){
+
     return {
-      rarity: "Uncommon (Negative Lean)",
-      result: [
+
+      result:[
+
         random(negative).name,
         random(negative).name,
         random(neutral).name
+
       ]
+
     };
+
   }
 
-  // 🟣 CHAOS
-  if (roll < 0.99) {
+
+
+  // ⚪ Neutral leaning
+  if(roll < 0.97){
+
     return {
-      rarity: "Rare (Chaotic Mix)",
-      result: [
-        random(personalities).name,
-        random(personalities).name,
-        random(personalities).name
+
+      result:[
+
+        random(neutral).name,
+        random(neutral).name,
+        random(positive).name
+
       ]
+
     };
+
   }
 
-  // 🟡 LEGENDARY
-  const typeRoll = Math.random();
 
-  const pick = (list) => random(list).name;
 
-  if (typeRoll < 0.33) {
+  // 🌱 Pure Neutral
+  if(roll < 0.985){
+
     return {
-      rarity: "Legendary (Pure Positive)",
-      result: [pick(positive), pick(positive), pick(positive)]
+
+      result: pickUnique(neutral,3)
+
     };
+
   }
 
-  if (typeRoll < 0.66) {
+
+
+  // ☀️ Pure Positive
+  if(roll < 0.995){
+
     return {
-      rarity: "Legendary (Pure Neutral)",
-      result: [pick(neutral), pick(neutral), pick(neutral)]
+
+      result: pickUnique(positive,3)
+
     };
+
   }
 
+
+
+  // 🌑 Pure Negative
   return {
-    rarity: "Legendary (Pure Negative)",
-    result: [pick(negative), pick(negative), pick(negative)]
+
+    result: pickUnique(negative,3)
+
   };
+
+
 }
 
+
+
+// Optional category roll
+function rollCategory(category){
+
+  const pool = getByCategory(category);
+
+
+  return {
+
+    result: random(pool).name
+
+  };
+
+}
+
+
+
 module.exports = {
+
   rollSingle,
   rollFull,
-  rollRarity
+  rollCategory
+
 };
