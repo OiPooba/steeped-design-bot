@@ -134,21 +134,28 @@ function showCategoryPicker(interaction, parentKey, traitType) {
         ? "visible dominant"
         : "hidden carrier";
 
-    const menu = new StringSelectMenuBuilder()
-    .setCustomId(`kp_category_${parentKey}_${traitType}`)
-    .setPlaceholder("Choose a condition category")
-    .addOptions(
-        getConditionCategories().map(category => ({
+    const categoryOptions = [
+        ...(traitType === "dominant" ? [{
+            label:"Healthy (no visible dominant)",
+            value:"healthy",
+            description:"This parent has no expressed condition"
+        }] : []),
+        ...getConditionCategories().map(category => ({
             label:category,
             value:category
         }))
-    );
+    ];
+
+    const menu = new StringSelectMenuBuilder()
+    .setCustomId(`kp_category_${parentKey}_${traitType}`)
+    .setPlaceholder("Choose Healthy or a condition category")
+    .addOptions(categoryOptions);
 
     return interaction.update({
         content:
         `🧬 **${parentLabel}: ${traitLabel} traits**\n\n` +
         (traitType === "dominant"
-            ? "Choose one visible, expressed condition—or choose Healthy in the next menu."
+            ? "Choose Healthy or a category for this parent's visible, expressed condition."
             : `Choose a category, then add up to ${MAX_RECESSIVE_CONDITIONS} hidden carrier conditions.`),
         components:[
             new ActionRowBuilder().addComponents(menu),
@@ -508,12 +515,21 @@ async function handleSelectMenu(interaction) {
 
     if(customId.startsWith("kp_category_")){
         const [, , parentKey, traitType] = customId.split("_");
+        const category = interaction.values[0];
+
+        if(traitType === "dominant" && category === "healthy"){
+            const session = getSession(interaction);
+            if(!session) return missingSession(interaction);
+
+            session[parentKey].dominant = null;
+            return showKnownParentsPanel(interaction);
+        }
 
         return showConditionPicker(
             interaction,
             parentKey,
             traitType,
-            interaction.values[0]
+            category
         );
     }
 
