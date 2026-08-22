@@ -207,10 +207,7 @@ function formatInjuryResult(result) {
             `${result.injury.description}\n\n` +
             `**Expected duration:** ${result.injury.duration}`
         }
-    )
-    .setFooter({
-        text:"Roleplay injury roller — not medical advice"
-    });
+    );
 }
 
 
