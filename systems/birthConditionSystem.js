@@ -5,6 +5,7 @@ const RECESSIVE_HEALTH_MODIFIER = -3;
 const MAX_RECESSIVE_CONDITIONS = 6;
 const MAX_STANDARD_DOMINANT_CONDITIONS = 1;
 const MAX_ALBINO_DOMINANT_CONDITIONS = 3;
+const RANDOM_RECESSIVE_CHANCES = [25, 8];
 const ALBINO_THREE_DOMINANT_CHANCE = 85;
 const SEVERITY_VARIATION_CHANCE = 35;
 
@@ -367,6 +368,27 @@ function findRecessiveConditions(mother, father, excludedKeys = new Set()) {
 
         if(rollPercent() <= chance){
             recessives.push({ condition:occurrence.condition, source });
+        }
+    }
+
+    const selectedKeys = new Set([
+        ...excludedKeys,
+        ...recessives.map(({ condition }) => conditionKey(condition))
+    ]);
+
+    for(const chance of RANDOM_RECESSIVE_CHANCES){
+        if(recessives.length >= MAX_RECESSIVE_CONDITIONS || rollPercent() > chance){
+            continue;
+        }
+
+        const condition = generateRandomCondition(selectedKeys);
+
+        if(condition){
+            selectedKeys.add(conditionKey(condition));
+            recessives.push({
+                condition,
+                source:"Random genetic carrier variation"
+            });
         }
     }
 
