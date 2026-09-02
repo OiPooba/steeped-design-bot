@@ -66,11 +66,7 @@ module.exports = {
 ${traitLines}
 
 🧬 **Synergy:**
-${
-  synergy
-    ? synergy.map(s => `• ${s.result} (${s.score})`).join("\n")
-    : "No strong synergy detected."
-}
+${synergy || "No strong synergy gently surfaces from the brew."}
 
 ✨ **Aroma of Personality:**
 ${rpSentence}`

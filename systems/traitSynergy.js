@@ -228,31 +228,25 @@ function getSynergy(traits) {
 
   const tagCounts = countTags(tags);
 
-  const synergyScores = [];
+  let bestMatch = null;
+  let bestScore = 0;
 
-  for (const entry of synergyMap) {
+  // score EVERY synergy against ALL tags
+  for (const synergy of synergyMap) {
     let score = 0;
 
-    for (const tag of entry.tags) {
+    for (const tag of synergy.tags) {
       score += tags.filter(t => t === tag).length;
     }
 
-    if (score > 0) {
-      synergyScores.push({
-        result: entry.result,
-        score
-      });
+    // must match at least 2 total tag hits
+    if (score >= 2 && score > bestScore) {
+      bestScore = score;
+      bestMatch = synergy.result;
     }
   }
 
-  if (!synergyScores.length) return null;
-
-  synergyScores.sort((a, b) => b.score - a.score);
-
-  // keep top 3 synergies
-  const top = synergyScores.slice(0, 3);
-
-  return top;
+  return bestMatch;
 }
 
 module.exports = { getSynergy };
