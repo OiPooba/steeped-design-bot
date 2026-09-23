@@ -1,5 +1,32 @@
 const birthConditions = [
 
+{
+  name: "Thinning Feathers / Slim",
+  category: "Feathers",
+  severity: "Mild",
+  rarity: "Uncommon",
+  description: "Has thinner feather coverage and a slim build.",
+  inheritanceGroup: "feathers"
+},
+
+{
+  name: "Extra Feathers / Bulky",
+  category: "Feathers",
+  severity: "Mild",
+  rarity: "Uncommon",
+  description: "Has extra feather coverage and a bulky build.",
+  inheritanceGroup: "feathers"
+},
+
+{
+  name: "Featherless / Tiny",
+  category: "Feathers",
+  severity: "Severe",
+  rarity: "Rare",
+  description: "Has no feathers and a tiny build.",
+  inheritanceGroup: "feathers"
+},
+
 /* =========================
    👁 VISION SYSTEM
 ========================= */
