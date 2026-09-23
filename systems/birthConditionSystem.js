@@ -420,16 +420,16 @@ function calculateHealthChance(mother, father) {
     );
 }
 
-function generateRandomParent() {
+function generateRandomParent(excludedKeys = new Set()) {
     const dominants = rollPercent() <= 35
-        ? [generateRandomCondition()].filter(Boolean)
+        ? [generateRandomCondition(excludedKeys)].filter(Boolean)
         : [];
     const recessive = [];
 
     for(const chance of [75, 40]){
         if(rollPercent() <= chance){
             const condition = generateRandomCondition(
-                new Set(recessive.map(conditionKey))
+                new Set([...excludedKeys, ...recessive.map(conditionKey)])
             );
 
             if(condition){
@@ -444,20 +444,30 @@ function generateRandomParent() {
 function generateBirthCondition({
     characterName,
     albino = false,
+    hasFeathers = false,
     parentsKnown = false,
     mother = null,
     father = null
 }) {
+    const excludedKeys = new Set(birthConditions
+        .filter(condition => !hasFeathers && condition.category === "Feathers")
+        .map(conditionKey));
     const normalizedMother = parentsKnown
         ? normalizeParent(mother)
-        : generateRandomParent();
+        : generateRandomParent(excludedKeys);
     const normalizedFather = parentsKnown
         ? normalizeParent(father)
-        : generateRandomParent();
+        : generateRandomParent(excludedKeys);
+
+    for(const parent of [normalizedMother, normalizedFather]){
+        parent.dominants = parent.dominants.filter(condition => !excludedKeys.has(conditionKey(condition)));
+        parent.recessive = parent.recessive.filter(condition => !excludedKeys.has(conditionKey(condition)));
+    }
 
     const result = {
         characterName,
         albino,
+        hasFeathers,
         dominantConditions:[],
         dominantCondition:null,
         recessiveConditions:[],
@@ -473,7 +483,8 @@ function generateBirthCondition({
         result.source += " • Healthy dominant roll";
         result.recessiveConditions = findRecessiveConditions(
             normalizedMother,
-            normalizedFather
+            normalizedFather,
+            excludedKeys
         );
         return result;
     }
@@ -482,7 +493,7 @@ function generateBirthCondition({
         rollPercent() <= ALBINO_THREE_DOMINANT_CHANCE
         ? MAX_ALBINO_DOMINANT_CONDITIONS
         : MAX_STANDARD_DOMINANT_CONDITIONS;
-    const selectedKeys = new Set();
+    const selectedKeys = new Set(excludedKeys);
 
     for(let index = 0; index < dominantSlots; index++){
         const inherited = rollDominantCondition(
