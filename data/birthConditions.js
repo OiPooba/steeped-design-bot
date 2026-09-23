@@ -1,5 +1,50 @@
 const birthConditions = [
 
+{
+  name: "Unique Patternation",
+  category: "Appearance",
+  severity: "Mild",
+  rarity: "Rare",
+  description: "Has a unique skin pattern unlike either parent's, rather than a genetically inherited pattern, while retaining colors that match the parents. Cosmetic only.",
+  inheritanceGroup: "patternation"
+},
+
+{
+  name: "Unique Eye Color",
+  category: "Appearance",
+  severity: "Mild",
+  rarity: "Rare",
+  description: "Has a unique eye color that does not come from either parent's eye-color genes. Cosmetic only; does not affect vision.",
+  inheritanceGroup: "eyeColor"
+},
+
+{
+  name: "Thinning Feathers",
+  category: "Feathers",
+  severity: "Mild",
+  rarity: "Uncommon",
+  description: "Has thinner feather coverage.",
+  inheritanceGroup: "feathers"
+},
+
+{
+  name: "Extra Feathers",
+  category: "Feathers",
+  severity: "Mild",
+  rarity: "Uncommon",
+  description: "Has extra feather coverage.",
+  inheritanceGroup: "feathers"
+},
+
+{
+  name: "Featherless",
+  category: "Feathers",
+  severity: "Severe",
+  rarity: "Rare",
+  description: "Lacks feathers despite normally having feather coverage.",
+  inheritanceGroup: "feathers"
+},
+
 /* =========================
    👁 VISION SYSTEM
 ========================= */
@@ -687,7 +732,7 @@ const birthConditions = [
 
 {
   name: "Jaw Weakness",
-  category: "Feeding",
+  category: "Digestion",
   severity: "Mild",
   rarity: "Common",
   description: "Eats slower and requires pauses while feeding.",
@@ -696,7 +741,7 @@ const birthConditions = [
 
 {
   name: "Overactive Appetite",
-  category: "Feeding",
+  category: "Digestion",
   severity: "Mild",
   rarity: "Common",
   description: "Requires frequent feeding and consumes more than average.",
@@ -705,7 +750,7 @@ const birthConditions = [
 
 {
   name: "Sensitive Stomach",
-  category: "Feeding",
+  category: "Digestion",
   severity: "Mild",
   rarity: "Common",
   description: "Certain foods cause discomfort.",
@@ -714,7 +759,7 @@ const birthConditions = [
 
 {
   name: "Reduced Appetite",
-  category: "Feeding",
+  category: "Digestion",
   severity: "Mild",
   rarity: "Uncommon",
   description: "Naturally eats less than others.",
@@ -723,7 +768,7 @@ const birthConditions = [
 
 {
   name: "Picky Digestive System",
-  category: "Feeding",
+  category: "Digestion",
   severity: "Mild",
   rarity: "Uncommon",
   description: "Only tolerates certain foods well.",
@@ -732,7 +777,7 @@ const birthConditions = [
 
 {
   name: "Feeding Difficulty",
-  category: "Feeding",
+  category: "Digestion",
   severity: "Moderate",
   rarity: "Rare",
   description: "Struggles to consume enough food.",
@@ -741,7 +786,7 @@ const birthConditions = [
 
 {
   name: "Digestive Sensitivity",
-  category: "Feeding",
+  category: "Digestion",
   severity: "Moderate",
   rarity: "Rare",
   description: "Many foods cause problems.",
@@ -750,7 +795,7 @@ const birthConditions = [
 
 {
   name: "Nutrient Absorption Disorder",
-  category: "Feeding",
+  category: "Digestion",
   severity: "Severe",
   rarity: "Very Rare",
   description: "Body struggles gaining nutrients from food.",
@@ -759,7 +804,7 @@ const birthConditions = [
 
 {
   name: "Digestive Failure",
-  category: "Feeding",
+  category: "Digestion",
   severity: "Extreme",
   rarity: "Extremely Rare",
   description: "Unable to properly process nutrients without special care.",

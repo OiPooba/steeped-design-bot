@@ -26,9 +26,9 @@ function getSession(interaction) {
 }
 
 
-function getConditionCategories() {
+function getConditionCategories(hasFeathers) {
     return [...new Set(
-        birthConditions.map(condition => condition.category)
+        birthConditions.filter(condition => hasFeathers || condition.category !== "Feathers").map(condition => condition.category)
     )];
 }
 
@@ -140,7 +140,7 @@ function showCategoryPicker(interaction, parentKey, traitType) {
             value:"healthy",
             description:"This parent has no expressed condition"
         }] : []),
-        ...getConditionCategories().map(category => ({
+        ...getConditionCategories(getSession(interaction)?.hasFeathers).map(category => ({
             label:category,
             value:category
         }))
@@ -198,6 +198,7 @@ function showConditionPicker(
     );
     const matching = birthConditions.filter(condition =>
         condition.category === category &&
+        (session.hasFeathers || condition.category !== "Feathers") &&
         (traitType === "dominant" ||
             !selectedKeys.has(conditionKey(condition)))
     );
@@ -290,14 +291,15 @@ function randomItem(items) {
 }
 
 
-function autoFillParent(name) {
+function autoFillParent(name, hasFeathers) {
+    const available = birthConditions.filter(condition => hasFeathers || condition.category !== "Feathers");
     const recessive = [];
     const count = Math.random() < 0.55
         ? 0
         : Math.random() < 0.8 ? 1 : 2;
 
     while(recessive.length < count){
-        const condition = randomItem(birthConditions);
+        const condition = randomItem(available);
 
         if(!recessive.some(existing =>
             conditionKey(existing) === conditionKey(condition)
@@ -309,7 +311,7 @@ function autoFillParent(name) {
     return {
         name,
         dominant:Math.random() < 0.35
-            ? randomItem(birthConditions)
+            ? randomItem(available)
             : null,
         recessive
     };
@@ -337,6 +339,7 @@ async function generateAndSave(interaction, session) {
     const result = generateBirthCondition({
         characterName:session.characterName,
         albino:session.albino,
+        hasFeathers:session.hasFeathers,
         parentsKnown:session.parentsKnown,
         mother:session.mother,
         father:session.father
@@ -401,6 +404,19 @@ async function handleButton(interaction) {
         if(!session) return missingSession(interaction);
 
         session.albino = customId === "albino_yes";
+        return interaction.update({
+            content:"Does your character have feathers?\nChoose Yes if they normally have feathers, so feather conditions (including Featherless) can apply.",
+            components:[new ActionRowBuilder().addComponents(
+                new ButtonBuilder().setCustomId("feathers_yes").setLabel("Yes").setStyle(ButtonStyle.Primary),
+                new ButtonBuilder().setCustomId("feathers_no").setLabel("No").setStyle(ButtonStyle.Secondary)
+            )]
+        });
+    }
+
+    if(customId === "feathers_yes" || customId === "feathers_no"){
+        const session = getSession(interaction);
+        if(!session) return missingSession(interaction);
+        session.hasFeathers = customId === "feathers_yes";
 
         return interaction.update({
             content:
@@ -473,8 +489,8 @@ async function handleButton(interaction) {
         const session = getSession(interaction);
         if(!session) return missingSession(interaction);
 
-        session.mother = autoFillParent(session.mother.name);
-        session.father = autoFillParent(session.father.name);
+        session.mother = autoFillParent(session.mother.name, session.hasFeathers);
+        session.father = autoFillParent(session.father.name, session.hasFeathers);
         return renderKnownParentsPanel(interaction);
     }
 
@@ -522,7 +538,7 @@ async function handleSelectMenu(interaction) {
             if(!session) return missingSession(interaction);
 
             session[parentKey].dominant = null;
-            return showKnownParentsPanel(interaction);
+            return renderKnownParentsPanel(interaction);
         }
 
         return showConditionPicker(
@@ -582,6 +598,7 @@ async function handleModal(interaction) {
         sessions.set(interaction.user.id, {
             characterName,
             albino:false,
+            hasFeathers:false,
             parentsKnown:false,
             mother:null,
             father:null
@@ -745,6 +762,10 @@ function formatBirthResult(result) {
             name:"🧬 Hidden Recessive Health Conditions",
             value:"None detected."
         });
+    }
+
+    if(typeof result.hasFeathers === "boolean"){
+        embed.addFields({ name:"Normally has feathers", value:result.hasFeathers ? "Yes" : "No", inline:true });
     }
 
     return embed.setFooter({
