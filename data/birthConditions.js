@@ -177,15 +177,6 @@ const birthConditions = [
 ========================= */
 
 {
-  name: "Chronic Fatigue",
-  category: "Respiratory",
-  severity: "Mild",
-  rarity: "Common",
-  description: "Stamina regenerates slower and the individual tires easily.",
-  inheritanceGroup: "respiratory"
-},
-
-{
   name: "Short-Winded",
   category: "Respiratory",
   severity: "Mild",
@@ -212,15 +203,6 @@ const birthConditions = [
   inheritanceGroup: "respiratory"
 },
 
-{
-  name: "Severe Lung Deficiency",
-  category: "Respiratory",
-  severity: "Extreme",
-  rarity: "Very Rare",
-  description: "Breathing capacity is extremely limited and requires constant care.",
-  inheritanceGroup: "respiratory"
-},
-
 /* =========================
    🦴 SKELETAL / PHYSICAL SYSTEM
 ========================= */
@@ -240,24 +222,6 @@ const birthConditions = [
   severity: "Mild",
   rarity: "Uncommon",
   description: "Requires additional time to loosen after resting.",
-  inheritanceGroup: "physical"
-},
-
-{
-  name: "Uneven Gait",
-  category: "Skeletal",
-  severity: "Mild",
-  rarity: "Uncommon",
-  description: "Movement pattern is slightly uneven.",
-  inheritanceGroup: "physical"
-},
-
-{
-  name: "Slow Muscle Development",
-  category: "Skeletal",
-  severity: "Mild",
-  rarity: "Uncommon",
-  description: "Strength develops slower than others.",
   inheritanceGroup: "physical"
 },
 
@@ -429,15 +393,6 @@ const birthConditions = [
 },
 
 {
-  name: "Emotional Regulation Difficulty",
-  category: "Neurological",
-  severity: "Moderate",
-  rarity: "Rare",
-  description: "Struggles controlling strong emotional reactions.",
-  inheritanceGroup: "neurological"
-},
-
-{
   name: "Motor Control Issues",
   category: "Neurological",
   severity: "Moderate",
@@ -452,24 +407,6 @@ const birthConditions = [
   severity: "Severe",
   rarity: "Very Rare",
   description: "Major difficulty controlling movement.",
-  inheritanceGroup: "neurological"
-},
-
-{
-  name: "Neurological Regression",
-  category: "Neurological",
-  severity: "Severe",
-  rarity: "Very Rare",
-  description: "Certain abilities weaken over time.",
-  inheritanceGroup: "neurological"
-},
-
-{
-  name: "Severe Neurological Delay",
-  category: "Neurological",
-  severity: "Extreme",
-  rarity: "Extremely Rare",
-  description: "Very delayed processing, reactions, and responses.",
   inheritanceGroup: "neurological"
 },
 
@@ -853,24 +790,6 @@ const birthConditions = [
 },
 
 {
-  name: "Unstable Voice",
-  category: "Vocal",
-  severity: "Moderate",
-  rarity: "Rare",
-  description: "Calls may change unexpectedly.",
-  inheritanceGroup: "vocal"
-},
-
-{
-  name: "Partial Vocal Loss",
-  category: "Vocal",
-  severity: "Severe",
-  rarity: "Very Rare",
-  description: "Can only produce limited sounds.",
-  inheritanceGroup: "vocal"
-},
-
-{
   name: "Mute",
   category: "Vocal",
   severity: "Severe",
@@ -951,15 +870,6 @@ const birthConditions = [
   severity: "Moderate",
   rarity: "Rare",
   description: "Grows significantly larger than average and may need additional food and space.",
-  inheritanceGroup: "growth"
-},
-
-{
-  name: "Stunted Development",
-  category: "Growth",
-  severity: "Severe",
-  rarity: "Very Rare",
-  description: "Multiple growth stages are affected.",
   inheritanceGroup: "growth"
 },
 
